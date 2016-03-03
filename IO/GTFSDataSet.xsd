@@ -36,7 +36,7 @@
               <xs:element name="stop_lon" msprop:Generator_ColumnVarNameInTable="columnstop_lon" msprop:Generator_ColumnPropNameInRow="stop_lon" msprop:Generator_ColumnPropNameInTable="stop_lonColumn" msprop:Generator_UserColumnName="stop_lon" type="xs:decimal" />
               <xs:element name="zone_id" msprop:Generator_ColumnVarNameInTable="columnzone_id" msprop:Generator_ColumnPropNameInRow="zone_id" msprop:Generator_ColumnPropNameInTable="zone_idColumn" msprop:Generator_UserColumnName="zone_id" type="xs:string" minOccurs="0" />
               <xs:element name="stop_url" msprop:Generator_ColumnVarNameInTable="columnstop_url" msprop:Generator_ColumnPropNameInRow="stop_url" msprop:Generator_ColumnPropNameInTable="stop_urlColumn" msprop:Generator_UserColumnName="stop_url" type="xs:string" minOccurs="0" />
-              <xs:element name="location_type" msprop:Generator_ColumnVarNameInTable="columnlocation_type" msprop:Generator_ColumnPropNameInRow="location_type" msprop:Generator_ColumnPropNameInTable="location_typeColumn" msprop:Generator_UserColumnName="location_type" type="xs:string" minOccurs="0" />
+              <xs:element name="location_type" msdata:Caption="" msprop:Generator_ColumnVarNameInTable="columnlocation_type" msprop:Generator_ColumnPropNameInRow="location_type" msprop:Generator_ColumnPropNameInTable="location_typeColumn" msprop:Generator_UserColumnName="location_type" type="xs:string" minOccurs="0" />
               <xs:element name="parent_station" msprop:Generator_ColumnVarNameInTable="columnparent_station" msprop:Generator_ColumnPropNameInRow="parent_station" msprop:Generator_ColumnPropNameInTable="parent_stationColumn" msprop:Generator_UserColumnName="parent_station" type="xs:string" minOccurs="0" />
               <xs:element name="stop_timezone" msprop:Generator_ColumnVarNameInTable="columnstop_timezone" msprop:Generator_ColumnPropNameInRow="stop_timezone" msprop:Generator_ColumnPropNameInTable="stop_timezoneColumn" msprop:Generator_UserColumnName="stop_timezone" type="xs:string" minOccurs="0" />
               <xs:element name="wheelchair_boarding" msprop:Generator_ColumnVarNameInTable="columnwheelchair_boarding" msprop:Generator_ColumnPropNameInRow="wheelchair_boarding" msprop:Generator_ColumnPropNameInTable="wheelchair_boardingColumn" msprop:Generator_UserColumnName="wheelchair_boarding" type="xs:string" minOccurs="0" />
@@ -182,6 +182,20 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="paths" msprop:Generator_TableClassName="pathsDataTable" msprop:Generator_TableVarName="tablepaths" msprop:Generator_TablePropName="paths" msprop:Generator_RowDeletingName="pathsRowDeleting" msprop:Generator_RowChangingName="pathsRowChanging" msprop:Generator_RowEvHandlerName="pathsRowChangeEventHandler" msprop:Generator_RowDeletedName="pathsRowDeleted" msprop:Generator_UserTableName="paths" msprop:Generator_RowChangedName="pathsRowChanged" msprop:Generator_RowEvArgName="pathsRowChangeEvent" msprop:Generator_RowClassName="pathsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="shape_id" msprop:Generator_ColumnVarNameInTable="columnshape_id" msprop:Generator_ColumnPropNameInRow="shape_id" msprop:Generator_ColumnPropNameInTable="shape_idColumn" msprop:Generator_UserColumnName="shape_id" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="blocks" msprop:Generator_TableClassName="blocksDataTable" msprop:Generator_TableVarName="tableblocks" msprop:Generator_RowChangedName="blocksRowChanged" msprop:Generator_TablePropName="blocks" msprop:Generator_RowDeletingName="blocksRowDeleting" msprop:Generator_RowChangingName="blocksRowChanging" msprop:Generator_RowEvHandlerName="blocksRowChangeEventHandler" msprop:Generator_RowDeletedName="blocksRowDeleted" msprop:Generator_RowClassName="blocksRow" msprop:Generator_UserTableName="blocks" msprop:Generator_RowEvArgName="blocksRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="block_id" msprop:Generator_ColumnVarNameInTable="columnblock_id" msprop:Generator_ColumnPropNameInRow="block_id" msprop:Generator_ColumnPropNameInTable="block_idColumn" msprop:Generator_UserColumnName="block_id" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="agency.txtKey1">
@@ -223,21 +237,70 @@
       <xs:field xpath="mstns:shape_id" />
       <xs:field xpath="mstns:shape_pt_sequence" />
     </xs:unique>
+    <xs:unique name="paths_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:paths" />
+      <xs:field xpath="mstns:shape_id" />
+    </xs:unique>
+    <xs:unique name="blocks_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:blocks" />
+      <xs:field xpath="mstns:block_id" />
+    </xs:unique>
+    <xs:keyref name="stops.txt_transfers.txt_to" refer="Constraint1" msprop:rel_Generator_UserChildTable="transfers.txt" msprop:rel_Generator_ChildPropName="_Gettransfers_txtRowsBystops_txt_transfers_txt_to" msprop:rel_Generator_UserRelationName="stops.txt_transfers.txt_to" msprop:rel_Generator_ParentPropName="_stops_txtRowBystops_txt_transfers_txt_to" msprop:rel_Generator_RelationVarName="_relationstops_txt_transfers_txt_to" msprop:rel_Generator_UserParentTable="stops.txt">
+      <xs:selector xpath=".//mstns:transfers.txt" />
+      <xs:field xpath="mstns:to_stop_id" />
+    </xs:keyref>
+    <xs:keyref name="trips.txt_frequencies.txt" refer="trips.txt_Constraint1" msprop:rel_Generator_UserChildTable="frequencies.txt" msprop:rel_Generator_ChildPropName="_Getfrequencies_txtRows" msprop:rel_Generator_UserRelationName="trips.txt_frequencies.txt" msprop:rel_Generator_ParentPropName="_trips_txtRow" msprop:rel_Generator_RelationVarName="_relationtrips_txt_frequencies_txt" msprop:rel_Generator_UserParentTable="trips.txt">
+      <xs:selector xpath=".//mstns:frequencies.txt" />
+      <xs:field xpath="mstns:trip_id" />
+    </xs:keyref>
+    <xs:keyref name="FK_paths_shapes.txt" refer="paths_Constraint1" msprop:rel_Generator_UserChildTable="shapes.txt" msprop:rel_Generator_ChildPropName="_Getshapes_txtRows" msprop:rel_Generator_UserRelationName="FK_paths_shapes.txt" msprop:rel_Generator_RelationVarName="_relationFK_paths_shapes_txt" msprop:rel_Generator_UserParentTable="paths" msprop:rel_Generator_ParentPropName="pathsRow">
+      <xs:selector xpath=".//mstns:shapes.txt" />
+      <xs:field xpath="mstns:shape_id" />
+    </xs:keyref>
+    <xs:keyref name="fare_attributes.txt_fare_rules.txt" refer="fare_attributes.txt_Constraint1" msprop:rel_Generator_UserChildTable="fare_rules.txt" msprop:rel_Generator_ChildPropName="_Getfare_rules_txtRows" msprop:rel_Generator_UserRelationName="fare_attributes.txt_fare_rules.txt" msprop:rel_Generator_ParentPropName="_fare_attributes_txtRow" msprop:rel_Generator_RelationVarName="_relationfare_attributes_txt_fare_rules_txt" msprop:rel_Generator_UserParentTable="fare_attributes.txt">
+      <xs:selector xpath=".//mstns:fare_rules.txt" />
+      <xs:field xpath="mstns:fare_id" />
+    </xs:keyref>
+    <xs:keyref name="routes.txt_fare_rules.txt" refer="routes.txt_Constraint1" msprop:rel_Generator_UserChildTable="fare_rules.txt" msprop:rel_Generator_ChildPropName="_Getfare_rules_txtRows" msprop:rel_Generator_UserRelationName="routes.txt_fare_rules.txt" msprop:rel_Generator_ParentPropName="_routes_txtRow" msprop:rel_Generator_RelationVarName="_relationroutes_txt_fare_rules_txt" msprop:rel_Generator_UserParentTable="routes.txt">
+      <xs:selector xpath=".//mstns:fare_rules.txt" />
+      <xs:field xpath="mstns:route_id" />
+    </xs:keyref>
+    <xs:keyref name="calendar.txt_calendar_dates.txt" refer="calendar.txt_Constraint1" msprop:rel_Generator_UserChildTable="calendar_dates.txt" msprop:rel_Generator_ChildPropName="_Getcalendar_dates_txtRows" msprop:rel_Generator_UserRelationName="calendar.txt_calendar_dates.txt" msprop:rel_Generator_ParentPropName="_calendar_txtRow" msprop:rel_Generator_RelationVarName="_relationcalendar_txt_calendar_dates_txt" msprop:rel_Generator_UserParentTable="calendar.txt">
+      <xs:selector xpath=".//mstns:calendar_dates.txt" />
+      <xs:field xpath="mstns:service_id" />
+    </xs:keyref>
+    <xs:keyref name="stops.txt_stop_times.txt" refer="Constraint1" msprop:rel_Generator_UserChildTable="stop_times.txt" msprop:rel_Generator_ChildPropName="_Getstop_times_txtRows" msprop:rel_Generator_UserRelationName="stops.txt_stop_times.txt" msprop:rel_Generator_ParentPropName="_stops_txtRow" msprop:rel_Generator_RelationVarName="_relationstops_txt_stop_times_txt" msprop:rel_Generator_UserParentTable="stops.txt">
+      <xs:selector xpath=".//mstns:stop_times.txt" />
+      <xs:field xpath="mstns:stop_id" />
+    </xs:keyref>
+    <xs:keyref name="trips.txt_stop_times.txt" refer="trips.txt_Constraint1" msprop:rel_Generator_UserChildTable="stop_times.txt" msprop:rel_Generator_ChildPropName="_Getstop_times_txtRows" msprop:rel_Generator_UserRelationName="trips.txt_stop_times.txt" msprop:rel_Generator_ParentPropName="_trips_txtRow" msprop:rel_Generator_RelationVarName="_relationtrips_txt_stop_times_txt" msprop:rel_Generator_UserParentTable="trips.txt">
+      <xs:selector xpath=".//mstns:stop_times.txt" />
+      <xs:field xpath="mstns:trip_id" />
+    </xs:keyref>
+    <xs:keyref name="FK_paths_trips.txt" refer="paths_Constraint1" msprop:rel_Generator_UserChildTable="trips.txt" msprop:rel_Generator_ChildPropName="_Gettrips_txtRows" msprop:rel_Generator_UserRelationName="FK_paths_trips.txt" msprop:rel_Generator_RelationVarName="_relationFK_paths_trips_txt" msprop:rel_Generator_UserParentTable="paths" msprop:rel_Generator_ParentPropName="pathsRow">
+      <xs:selector xpath=".//mstns:trips.txt" />
+      <xs:field xpath="mstns:shape_id" />
+    </xs:keyref>
+    <xs:keyref name="calendar.txt_trips.txt" refer="calendar.txt_Constraint1" msprop:rel_Generator_UserChildTable="trips.txt" msprop:rel_Generator_ChildPropName="_Gettrips_txtRows" msprop:rel_Generator_UserRelationName="calendar.txt_trips.txt" msprop:rel_Generator_RelationVarName="_relationcalendar_txt_trips_txt" msprop:rel_Generator_UserParentTable="calendar.txt" msprop:rel_Generator_ParentPropName="_calendar_txtRow">
+      <xs:selector xpath=".//mstns:trips.txt" />
+      <xs:field xpath="mstns:service_id" />
+    </xs:keyref>
+    <xs:keyref name="routes.txt_trips.txt" refer="routes.txt_Constraint1" msprop:rel_Generator_UserChildTable="trips.txt" msprop:rel_Generator_ChildPropName="_Gettrips_txtRows" msprop:rel_Generator_UserRelationName="routes.txt_trips.txt" msprop:rel_Generator_ParentPropName="_routes_txtRow" msprop:rel_Generator_RelationVarName="_relationroutes_txt_trips_txt" msprop:rel_Generator_UserParentTable="routes.txt">
+      <xs:selector xpath=".//mstns:trips.txt" />
+      <xs:field xpath="mstns:route_id" />
+    </xs:keyref>
+    <xs:keyref name="FK_DataTable1_trips.txt" refer="blocks_Constraint1" msprop:rel_Generator_UserChildTable="trips.txt" msprop:rel_Generator_ChildPropName="_Gettrips_txtRows" msprop:rel_Generator_UserRelationName="FK_blocks_trips.txt" msprop:rel_Generator_ParentPropName="blocksRow" msprop:rel_Generator_RelationVarName="_relationFK_blocks_trips_txt" msprop:rel_Generator_UserParentTable="blocks" msdata:RelationName="FK_blocks_trips.txt">
+      <xs:selector xpath=".//mstns:trips.txt" />
+      <xs:field xpath="mstns:block_id" />
+    </xs:keyref>
+    <xs:keyref name="agency.txt_routes.txt" refer="agency.txtKey1" msprop:rel_Generator_UserChildTable="routes.txt" msprop:rel_Generator_ChildPropName="_Getroutes_txtRows" msprop:rel_Generator_UserRelationName="agency.txt_routes.txt" msprop:rel_Generator_ParentPropName="_agency_txtRow" msprop:rel_Generator_RelationVarName="_relationagency_txt_routes_txt" msprop:rel_Generator_UserParentTable="agency.txt">
+      <xs:selector xpath=".//mstns:routes.txt" />
+      <xs:field xpath="mstns:agency_id" />
+    </xs:keyref>
   </xs:element>
   <xs:annotation>
     <xs:appinfo>
-      <msdata:Relationship name="agency.txt_routes.txt" msdata:parent="agency.txt" msdata:child="routes.txt" msdata:parentkey="agency_id" msdata:childkey="agency_id" msprop:Generator_UserChildTable="routes.txt" msprop:Generator_ChildPropName="_Getroutes_txtRows" msprop:Generator_UserRelationName="agency.txt_routes.txt" msprop:Generator_ParentPropName="_agency_txtRow" msprop:Generator_RelationVarName="_relationagency_txt_routes_txt" msprop:Generator_UserParentTable="agency.txt" />
-      <msdata:Relationship name="routes.txt_trips.txt" msdata:parent="routes.txt" msdata:child="trips.txt" msdata:parentkey="route_id" msdata:childkey="route_id" msprop:Generator_UserChildTable="trips.txt" msprop:Generator_ChildPropName="_Gettrips_txtRows" msprop:Generator_UserRelationName="routes.txt_trips.txt" msprop:Generator_ParentPropName="_routes_txtRow" msprop:Generator_RelationVarName="_relationroutes_txt_trips_txt" msprop:Generator_UserParentTable="routes.txt" />
-      <msdata:Relationship name="calendar.txt_trips.txt" msdata:parent="calendar.txt" msdata:child="trips.txt" msdata:parentkey="service_id" msdata:childkey="service_id" msprop:Generator_UserChildTable="trips.txt" msprop:Generator_ChildPropName="_Gettrips_txtRows" msprop:Generator_UserRelationName="calendar.txt_trips.txt" msprop:Generator_RelationVarName="_relationcalendar_txt_trips_txt" msprop:Generator_UserParentTable="calendar.txt" msprop:Generator_ParentPropName="_calendar_txtRow" />
-      <msdata:Relationship name="trips.txt_stop_times.txt" msdata:parent="trips.txt" msdata:child="stop_times.txt" msdata:parentkey="trip_id" msdata:childkey="trip_id" msprop:Generator_UserChildTable="stop_times.txt" msprop:Generator_ChildPropName="_Getstop_times_txtRows" msprop:Generator_UserRelationName="trips.txt_stop_times.txt" msprop:Generator_ParentPropName="_trips_txtRow" msprop:Generator_RelationVarName="_relationtrips_txt_stop_times_txt" msprop:Generator_UserParentTable="trips.txt" />
-      <msdata:Relationship name="stops.txt_stop_times.txt" msdata:parent="stops.txt" msdata:child="stop_times.txt" msdata:parentkey="stop_id" msdata:childkey="stop_id" msprop:Generator_UserChildTable="stop_times.txt" msprop:Generator_ChildPropName="_Getstop_times_txtRows" msprop:Generator_UserRelationName="stops.txt_stop_times.txt" msprop:Generator_ParentPropName="_stops_txtRow" msprop:Generator_RelationVarName="_relationstops_txt_stop_times_txt" msprop:Generator_UserParentTable="stops.txt" />
-      <msdata:Relationship name="calendar.txt_calendar_dates.txt" msdata:parent="calendar.txt" msdata:child="calendar_dates.txt" msdata:parentkey="service_id" msdata:childkey="service_id" msprop:Generator_UserChildTable="calendar_dates.txt" msprop:Generator_ChildPropName="_Getcalendar_dates_txtRows" msprop:Generator_UserRelationName="calendar.txt_calendar_dates.txt" msprop:Generator_RelationVarName="_relationcalendar_txt_calendar_dates_txt" msprop:Generator_UserParentTable="calendar.txt" msprop:Generator_ParentPropName="_calendar_txtRow" />
-      <msdata:Relationship name="routes.txt_fare_rules.txt" msdata:parent="routes.txt" msdata:child="fare_rules.txt" msdata:parentkey="route_id" msdata:childkey="route_id" msprop:Generator_UserChildTable="fare_rules.txt" msprop:Generator_ChildPropName="_Getfare_rules_txtRows" msprop:Generator_UserRelationName="routes.txt_fare_rules.txt" msprop:Generator_ParentPropName="_routes_txtRow" msprop:Generator_RelationVarName="_relationroutes_txt_fare_rules_txt" msprop:Generator_UserParentTable="routes.txt" />
-      <msdata:Relationship name="fare_attributes.txt_fare_rules.txt" msdata:parent="fare_attributes.txt" msdata:child="fare_rules.txt" msdata:parentkey="fare_id" msdata:childkey="fare_id" msprop:Generator_UserChildTable="fare_rules.txt" msprop:Generator_ChildPropName="_Getfare_rules_txtRows" msprop:Generator_UserRelationName="fare_attributes.txt_fare_rules.txt" msprop:Generator_RelationVarName="_relationfare_attributes_txt_fare_rules_txt" msprop:Generator_UserParentTable="fare_attributes.txt" msprop:Generator_ParentPropName="_fare_attributes_txtRow" />
-      <msdata:Relationship name="trips.txt_frequencies.txt" msdata:parent="trips.txt" msdata:child="frequencies.txt" msdata:parentkey="trip_id" msdata:childkey="trip_id" msprop:Generator_UserChildTable="frequencies.txt" msprop:Generator_ChildPropName="_Getfrequencies_txtRows" msprop:Generator_UserRelationName="trips.txt_frequencies.txt" msprop:Generator_ParentPropName="_trips_txtRow" msprop:Generator_RelationVarName="_relationtrips_txt_frequencies_txt" msprop:Generator_UserParentTable="trips.txt" />
       <msdata:Relationship name="stops.txt_transfers.txt_from" msdata:parent="stops.txt" msdata:child="transfers.txt" msdata:parentkey="stop_id" msdata:childkey="from_stop_id" msprop:Generator_UserChildTable="transfers.txt" msprop:Generator_ChildPropName="_Gettransfers_txtRowsBystops_txt_transfers_txt_from" msprop:Generator_UserRelationName="stops.txt_transfers.txt_from" msprop:Generator_RelationVarName="_relationstops_txt_transfers_txt_from" msprop:Generator_UserParentTable="stops.txt" msprop:Generator_ParentPropName="_stops_txtRowBystops_txt_transfers_txt_from" />
-      <msdata:Relationship name="stops.txt_transfers.txt_to" msdata:parent="stops.txt" msdata:child="transfers.txt" msdata:parentkey="stop_id" msdata:childkey="to_stop_id" msprop:Generator_UserChildTable="transfers.txt" msprop:Generator_ChildPropName="_Gettransfers_txtRowsBystops_txt_transfers_txt_to" msprop:Generator_UserRelationName="stops.txt_transfers.txt_to" msprop:Generator_RelationVarName="_relationstops_txt_transfers_txt_to" msprop:Generator_UserParentTable="stops.txt" msprop:Generator_ParentPropName="_stops_txtRowBystops_txt_transfers_txt_to" />
-      <msdata:Relationship name="shapes.txt_trips.txt" msdata:parent="shapes.txt" msdata:child="trips.txt" msdata:parentkey="shape_id" msdata:childkey="shape_id" msprop:Generator_UserChildTable="trips.txt" msprop:Generator_ChildPropName="_Gettrips_txtRows" msprop:Generator_UserRelationName="shapes.txt_trips.txt" msprop:Generator_RelationVarName="_relationshapes_txt_trips_txt" msprop:Generator_UserParentTable="shapes.txt" msprop:Generator_ParentPropName="_shapes_txtRow" />
     </xs:appinfo>
   </xs:annotation>
 </xs:schema>

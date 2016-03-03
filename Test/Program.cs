@@ -10,27 +10,36 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            var testFile = new System.IO.FileInfo("test.zip");
-            if (testFile.Exists)
+            var gtfs = new GTFSTools.IO.GTFS("test.zip");
+            foreach (var block in gtfs.DataSet.blocks)
             {
-                var inputArchive = new System.IO.Compression.ZipArchive(testFile.OpenRead(), System.IO.Compression.ZipArchiveMode.Read);
-                var gtfs = new GTFSTools.IO.GTFS(inputArchive);
-                foreach (var trip in gtfs.DataSet._trips_txt)
+                Console.WriteLine("{0}", block.block_id);
+                foreach (var trip in block._Gettrips_txtRows().OrderBy(item => item._Getstop_times_txtRows().Where(stop_time => !stop_time.Isarrival_timeNull()).Min(stop_time => stop_time.arrival_time)))
                 {
-                    Console.WriteLine("{0}, {1}", trip.trip_id, trip._Getstop_times_txtRows().Count());
-                    //foreach (var stop_time in trip._Getstop_times_txtRows())
-                    //{
-                    //    Console.WriteLine("{0}, {1}", stop_time.stop_sequence, stop_time.Isarrival_timeNull() ? (TimeSpan?)null : stop_time.arrival_time);
-                    //}
-                }
-                using (var outputFile = System.IO.File.Create("test2.zip"))
-                {
-                    using (var outputArchive = new System.IO.Compression.ZipArchive(outputFile, System.IO.Compression.ZipArchiveMode.Create))
+                    Console.WriteLine("\t{0}, {1}", trip.trip_id, trip._Getstop_times_txtRows().Count());
+                    foreach (var stop_time in trip._Getstop_times_txtRows())
                     {
-                        gtfs.Write(outputArchive);
+                        Console.WriteLine("\t\t{0}, {1}", stop_time.stop_sequence, stop_time.Isarrival_timeNull() ? (TimeSpan?)null : stop_time.arrival_time);
+                    }
+                    foreach (var path in trip.pathsRow._Getshapes_txtRows())
+                    {
+                        Console.WriteLine("\t\t{0}, {1}, {2}", path.shape_pt_sequence, path.shape_pt_lat, path.shape_pt_lon);
                     }
                 }
             }
+            //foreach (var trip in gtfs.DataSet._trips_txt)
+            //{
+            //    //Console.WriteLine("{0}, {1}", trip.trip_id, trip._Getstop_times_txtRows().Count());
+            //    //foreach (var stop_time in trip._Getstop_times_txtRows())
+            //    //{
+            //    //    Console.WriteLine("{0}, {1}", stop_time.stop_sequence, stop_time.Isarrival_timeNull() ? (TimeSpan?)null : stop_time.arrival_time);
+            //    //}
+            //    //foreach (var path in trip.pathsRow._Getshapes_txtRows())
+            //    //{
+            //    //    Console.WriteLine("{0}, {1}, {2}", path.shape_pt_sequence, path.shape_pt_lat, path.shape_pt_lon);
+            //    //}
+            //}
+            gtfs.Write("test2.zip");
         }
     }
 }

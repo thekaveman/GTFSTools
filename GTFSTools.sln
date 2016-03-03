@@ -9,12 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWin", "TestWin\TestWin.csproj", "{1FEBB272-36F6-4980-97FE-B213FA2D6D5F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FAADA6A9-5CE5-4470-A45A-E1F3DD641C35}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableEdit", "TableEdit\TableEdit.csproj", "{6CD5AF63-9ED6-4B7E-BA8D-C1F6A1C14F0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GIS", "GIS\GIS.csproj", "{2C6F6681-2034-41E0-B301-2D91FB1A8912}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +31,14 @@ Global
 		{1FEBB272-36F6-4980-97FE-B213FA2D6D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FEBB272-36F6-4980-97FE-B213FA2D6D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FEBB272-36F6-4980-97FE-B213FA2D6D5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CD5AF63-9ED6-4B7E-BA8D-C1F6A1C14F0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CD5AF63-9ED6-4B7E-BA8D-C1F6A1C14F0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CD5AF63-9ED6-4B7E-BA8D-C1F6A1C14F0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CD5AF63-9ED6-4B7E-BA8D-C1F6A1C14F0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C6F6681-2034-41E0-B301-2D91FB1A8912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C6F6681-2034-41E0-B301-2D91FB1A8912}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C6F6681-2034-41E0-B301-2D91FB1A8912}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C6F6681-2034-41E0-B301-2D91FB1A8912}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
